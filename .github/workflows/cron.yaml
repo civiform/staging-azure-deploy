@@ -1,0 +1,29 @@
+name: Deploy
+on:
+  # Setting this enables manually triggering workflow in the GitHub UI
+  # see https://docs.github.com/en/actions/managing-workflow-runs/manually-running-a-workflow
+  workflow_dispatch: {}
+
+jobs:
+  run_prober:
+    runs-on: ubuntu-latest
+
+    env:
+      - AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+      - AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    steps:
+      - name: check out branch
+        uses: actions/checkout@v2
+
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: resolve latest snapshot tag
+        run: source bin/resolve-latest-snapshot-tag
+
+      - name: Check local dependencies
+        run: bin/doctor "--tag=${LATEST_SNAPSHOT_TAG}"
+
+      - name: Run deployment with latest
+        run: bin/deploy "--tag=${LATEST_SNAPSHOT_TAG}"
