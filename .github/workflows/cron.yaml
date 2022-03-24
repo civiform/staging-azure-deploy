@@ -29,6 +29,12 @@ jobs:
       - name: resolve latest snapshot tag
         run: source bin/resolve-latest-snapshot-tag
 
+      - name: az output
+        run: az ad signed-in-user show
+
+      - name: aws output
+        run: aws configure list-profiles
+
       - name: Check local dependencies
         run: bin/doctor "--tag=${LATEST_SNAPSHOT_TAG}"
 
