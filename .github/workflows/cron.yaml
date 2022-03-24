@@ -30,7 +30,7 @@ jobs:
         run: source bin/resolve-latest-snapshot-tag
 
       - name: az output
-        run: az ad signed-in-user show
+        run: az account show
 
       - name: aws output
         run: aws configure list-profiles
