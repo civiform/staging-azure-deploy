@@ -16,3 +16,7 @@ if [[ -z "${snapshot_tag}" ]]; then
 fi
 
 export LATEST_SNAPSHOT_TAG="${snapshot_tag}"
+
+if [[ -n "${GITHUB_ENV}" ]]; then
+  echo "LATEST_SNAPSHOT_TAG=${snapshot_tag}" >> "${GITHUB_ENV}"
+fi
