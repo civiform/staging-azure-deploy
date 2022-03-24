@@ -1,0 +1,9 @@
+#! /usr/bin/env bash
+
+set -e
+set -o pipefail
+
+az login --service-principal \
+  -u "${AZURE_SERVICE_PRINCIPAL_ID}" \
+  -p "${AZURE_SERVICE_PRINCIPAL_PASSWORD}" \
+  --tenant "${AZURE_SERVICE_PRINCIPAL_TENANT}"

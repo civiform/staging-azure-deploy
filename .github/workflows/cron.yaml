@@ -5,7 +5,7 @@ on:
   workflow_dispatch: {}
 
 jobs:
-  run_prober:
+  deploy:
     runs-on: ubuntu-latest
 
     env:
@@ -15,9 +15,8 @@ jobs:
       - name: check out branch
         uses: actions/checkout@v2
 
-      - uses: azure/login@v1
-        with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      - name: login to Azure
+        run: bin/azure-cli-login
 
       - name: resolve latest snapshot tag
         run: source bin/resolve-latest-snapshot-tag
