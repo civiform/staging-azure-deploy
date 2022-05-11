@@ -29,11 +29,11 @@ jobs:
 
       - name: resolve latest snapshot tag
         run: source bin/resolve-latest-snapshot-tag
-
-      - name: Run deployment with latest
-        run: bin/deploy "--tag=${LATEST_SNAPSHOT_TAG}"
         
       - name: Echoing env vars
         run: |
            echo $PWD;
            head -1 cloud/azure/templates/azure_saml_ses/setup.auto.tfvars
+
+      - name: Run deployment with latest
+        run: bin/deploy "--tag=${LATEST_SNAPSHOT_TAG}"
