@@ -29,6 +29,15 @@ jobs:
 
       - name: resolve latest snapshot tag
         run: source bin/resolve-latest-snapshot-tag
+        
+      - name: testing setup.auto.tfvars
+        run: |
+          touch setup.auto.tfvars
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -m "tfvars test"
+          git push
 
       - name: Run deployment with latest
         run: bin/deploy "--tag=${LATEST_SNAPSHOT_TAG}"
