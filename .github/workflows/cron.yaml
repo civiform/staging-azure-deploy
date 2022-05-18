@@ -9,9 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      AZURE_SERVICE_PRINCIPAL_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_ID }}
-      AZURE_SERVICE_PRINCIPAL_PASSWORD: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
-      AZURE_SERVICE_PRINCIPAL_TENANT: ${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}
+      ARM_TENANT_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_TENANT }}
+      ARM_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      ARM_CLIENT_ID: ${{ secrets.AZURE_SERVICE_PRINCIPAL_ID }}
+      ARM_CLIENT_SECRET: ${{ secrets.AZURE_SERVICE_PRINCIPAL_PASSWORD }}
     steps:
       - name: check out branch
         uses: actions/checkout@v2
@@ -24,10 +25,10 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: login to Azure
-        run: bin/azure-cli-login
+        run: bin/run cloud/azure/bin/cli-login --tag=latest
 
       - name: resolve latest snapshot tag
-        run: source bin/resolve-latest-snapshot-tag
+        run: source bin/run cloud/shared/bin/resolve-latest-snapshot-tag --tag=latest
 
       - name: Run deployment with latest
         run: bin/deploy "--tag=${LATEST_SNAPSHOT_TAG}"
